@@ -7,6 +7,8 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         impressum: resolve(import.meta.dirname, 'impressum.html'),
+        datenschutz: resolve(import.meta.dirname, 'datenschutz.html'),
+        nutzungsbedingungen: resolve(import.meta.dirname, 'nutzungsbedingungen.html'),
       },
     },
   },

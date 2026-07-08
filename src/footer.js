@@ -6,7 +6,7 @@ class SiteFooter extends HTMLElement {
           <a href="/">Home</a>
           <a href="/impressum.html">Impressum</a>
           <a href="/datenschutz.html">Datenschutz</a>
-          <a href="/agb.html">AGB</a>
+          <a href="/nutzungsbedingungen.html">Nutzungsbedingungen</a>
         </nav>
       </footer>
     `
