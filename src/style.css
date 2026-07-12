@@ -46,6 +46,16 @@ body {
   height: 100%;
 }
 
+/* the page snaps between the two full-height screens (hero, FAQ) */
+html {
+  scroll-snap-type: y mandatory;
+}
+
+.hero-app,
+.faq {
+  scroll-snap-align: start;
+}
+
 body {
   font-family: 'Kanit', sans-serif;
   background-color: var(--bg);
@@ -78,16 +88,30 @@ body {
   z-index: 0;
 }
 
-/* ---------- Landing hero ---------- */
-.hero {
+/* ---------- Split layout ----------
+   Sticky full-height logo on the left; the right column carries all content
+   and scrolls with the page. */
+.split {
   position: relative;
   z-index: 1;
-  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.split-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
   align-items: center;
-  padding: 3rem clamp(1.5rem, 6vw, 6rem) 7rem;
-  gap: 2rem;
+  justify-content: center;
+}
+
+.split-right {
+  min-width: 0;
+  padding-right: clamp(1.5rem, 6vw, 6rem);
 }
 
 .hero-logo {
@@ -101,9 +125,12 @@ body {
 }
 
 .hero-app {
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2.5rem;
 }
 
@@ -111,7 +138,15 @@ body {
   position: relative;
   height: min(62vh, 560px);
   aspect-ratio: 1404 / 2876;
-  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.45));
+  perspective: 1200px;
+  cursor: grab;
+  touch-action: pan-y; /* horizontal drag spins the rotator, vertical still scrolls */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.phones.is-dragging {
+  cursor: grabbing;
 }
 
 .phone {
@@ -120,32 +155,121 @@ body {
   left: 50%;
   height: 100%;
   width: auto;
+  /* shadow sits on each phone (not the container): a filter on .phones would
+     flatten the children's 3D transforms */
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.45));
+  will-change: transform;
 }
 
+/* Static no-JS fallback; phones.js overrides these with inline 3D transforms. */
 .phone-center {
   transform: translateX(-50%);
-  z-index: 2;
-}
-
-.phone-left,
-.phone-right {
-  height: 88%;
-  top: 7%;
-  z-index: 1;
+  z-index: 3;
 }
 
 .phone-left {
-  transform: translateX(-50%) translateX(-52%);
+  transform: translateX(-50%) translateX(-46%) scale(0.88);
+  z-index: 1;
 }
 
 .phone-right {
-  transform: translateX(-50%) translateX(52%);
+  transform: translateX(-50%) translateX(46%) scale(0.88);
+  z-index: 2;
 }
 
 .store-badge img {
   height: 52px;
   width: auto;
   display: block;
+}
+
+/* ---------- FAQ section ---------- */
+.faq {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 0 8rem;
+}
+
+.faq h2 {
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.faq-questions {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-questions button {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 1rem 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.faq-questions button + button {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.faq-questions button:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.faq-questions button.is-active {
+  color: var(--text);
+}
+
+.faq-answers {
+  padding-top: 1rem;
+}
+
+.faq-answers p {
+  display: none;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.faq-answers p.is-active {
+  display: block;
+  animation: faq-fade 0.25s ease;
+}
+
+@keyframes faq-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-answers p.is-active {
+    animation: none;
+  }
 }
 
 /* ---------- Footer nav (fixed — identical position on every page) ---------- */
@@ -280,16 +404,44 @@ body {
 
 /* ---------- Mobile ---------- */
 @media (max-width: 820px) {
-  .hero {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-content: center;
-    padding: 2.5rem 1.5rem 8rem;
-    gap: 2.75rem;
+  /* no snapping on mobile — sections flow and scroll naturally */
+  html {
+    scroll-snap-type: none;
   }
 
-  .hero-logo {
-    justify-content: center;
+  /* single column: logo on top, content below, everything scrolls */
+  .split {
+    display: block;
+  }
+
+  .split-left {
+    position: static;
+    height: auto;
+    padding: 2.5rem 0 0;
+  }
+
+  .split-right {
+    padding: 0 1.5rem;
+  }
+
+  .faq {
+    min-height: 0;
+    display: block;
+    padding: 2rem 0 8rem;
+  }
+
+  /* question list on top, active answer below it */
+  .faq-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .faq-questions button {
+    padding: 0.8rem 0;
+  }
+
+  .faq-answers {
+    padding-top: 0;
   }
 
   .hero-logo img {
@@ -297,6 +449,8 @@ body {
   }
 
   .hero-app {
+    min-height: 0;
+    padding: 2.5rem 0 1.5rem;
     gap: 2rem;
   }
 

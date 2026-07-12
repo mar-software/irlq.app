@@ -6,6 +6,7 @@ class SiteFooter extends HTMLElement {
           <a href="/impressum.html">Impressum</a>
           <a href="/datenschutz.html">Datenschutz</a>
           <a href="/nutzungsbedingungen.html">Nutzungsbedingungen</a>
+          <a href="https://www.instagram.com/irlq.app" target="_blank" rel="noopener">Instagram</a>
         </nav>
       </footer>
     `
