@@ -177,10 +177,35 @@ body {
   z-index: 2;
 }
 
-.store-badge img {
-  height: 52px;
-  width: auto;
-  display: block;
+.beta-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2rem;
+  border-radius: 999px;
+  background: #f5e663;
+  color: #0a0a0a;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  box-shadow: 0 12px 32px rgba(245, 230, 99, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.beta-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(245, 230, 99, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beta-badge {
+    transition: none;
+  }
+  .beta-badge:hover {
+    transform: none;
+  }
 }
 
 /* ---------- FAQ section ---------- */
@@ -460,8 +485,9 @@ body {
     width: min(46vw, 210px);
   }
 
-  .store-badge img {
-    height: 46px;
+  .beta-badge {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
   }
 
   .site-footer {

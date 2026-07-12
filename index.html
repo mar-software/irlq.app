@@ -10,6 +10,68 @@
     />
     <link rel="icon" type="image/svg+xml" href="/irlq-icon-black.svg" />
     <link rel="stylesheet" href="/src/style.css" />
+
+    <!--
+      FAQ structured data (schema.org/FAQPage). The questions and answers below
+      must stay identical to the visible FAQ in the .faq section — if you edit an
+      FAQ, update it here too, or Google may ignore the markup.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is IRLQ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A social quest app. Pick a quest, complete it, and post live photo or video proof."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the Daily work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "One quest a day, the same for everyone. You see how your friends did it only after you've posted your own proof."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I create my own quests?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not quite yet but we are working on it! Stay tuned for a whole new chapter!"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When can I get it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We are currently in beta and will release soon. IRLQ is launching on iOS first."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How to join the IRLQ beta?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Send us a message on Instagram and we will send you an invite link."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How old do I have to be?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "IRLQ is made for users age 16+."
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div class="bg-icon" aria-hidden="true"></div>
@@ -28,8 +90,15 @@
             <img class="phone phone-right" src="/phone-mockup.png" alt="" aria-hidden="true" />
             <img class="phone phone-center" src="/phone-mockup.png" alt="Die IRLQ App auf dem iPhone" />
           </div>
-          <a class="store-badge" href="#" aria-label="IRLQ im App Store laden">
-            <img src="/app-store-badge.svg" alt="Laden im App Store" />
+          <a
+            class="beta-badge"
+            href="https://ig.me/m/irlq.app"
+            target="_blank"
+            rel="noopener"
+            data-beta-message="I want to take part in the IRLQ beta"
+            aria-label="Join the IRLQ beta — message us on Instagram"
+          >
+            Join the Beta
           </a>
         </main>
 
@@ -83,5 +152,6 @@
     <script type="module" src="/src/footer.js"></script>
     <script type="module" src="/src/phones.js"></script>
     <script type="module" src="/src/faq.js"></script>
+    <script type="module" src="/src/beta.js"></script>
   </body>
 </html>
