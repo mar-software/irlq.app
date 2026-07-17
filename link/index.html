@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Öffnet sich in der IRLQ-App — IRLQ</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/irlq-icon-black.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      .claim {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+        /* top-flow (not centered) so tall content scrolls instead of clipping;
+           the bottom padding clears the fixed footer nav */
+        padding: clamp(2rem, 8vh, 4.5rem) 1.5rem 9rem;
+        position: relative;
+        z-index: 1;
+      }
+      .claim-logo img {
+        width: 72px;
+        height: 72px;
+      }
+      .claim h1 {
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      .claim p {
+        max-width: 26rem;
+        opacity: 0.85;
+      }
+      .claim .subline {
+        font-size: 0.9rem;
+        opacity: 0.6;
+      }
+      .claim-open {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.9rem 2.5rem;
+        border-radius: 999px;
+        background: var(--text);
+        color: var(--bg);
+        font-weight: 600;
+        font-size: 1.05rem;
+        text-decoration: none;
+      }
+      .claim-hint {
+        font-size: 0.85rem;
+        opacity: 0.6;
+        max-width: 22rem;
+      }
+      .claim .store-badge img {
+        height: 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-icon" aria-hidden="true"></div>
+
+    <main class="claim">
+      <a class="claim-logo" href="/" aria-label="Zur Startseite">
+        <img src="/irlq-icon.svg" alt="IRLQ" />
+      </a>
+
+      <h1>Das öffnet sich in der IRLQ-App.</h1>
+      <p>
+        Dieser Link führt zu einem echten Moment — Beweisfoto, Quest-Book oder Profil. Zu sehen
+        gibt's ihn nur in der App.
+        <br />
+        <span class="subline">This link leads to a real moment — proof, quest book, or profile. It only opens in the app.</span>
+      </p>
+      <a id="open-app" class="claim-open" href="#">In der IRLQ-App öffnen</a>
+      <p class="claim-hint">
+        Noch keine App? Installiere IRLQ und öffne den Link danach erneut.
+        <br />
+        <span class="subline">No app yet? Install IRLQ first, then reopen this link.</span>
+      </p>
+      <a class="store-badge" href="#" aria-label="IRLQ im App Store laden">
+        <img src="/app-store-badge.svg" alt="Laden im App Store" />
+      </a>
+    </main>
+
+    <site-footer></site-footer>
+    <script type="module" src="/src/footer.js"></script>
+    <script>
+      // Mirror the shared https URL as a custom-scheme link so "open in app"
+      // works even where the universal link was swallowed by the browser.
+      // Empty-authority form (IRLQ:///…) on purpose: with IRLQ://@handle/… the
+      // URL parser reads "@" as a userinfo separator and silently drops it.
+      // /book/<id> → IRLQ:///book/<id>, /@handle/p/<id> → IRLQ:///@handle/p/<id>,
+      // /user/<id>?proof=<id> keeps its query.
+      document.getElementById('open-app').href =
+        'IRLQ://' + location.pathname + location.search;
+    </script>
+  </body>
+</html>

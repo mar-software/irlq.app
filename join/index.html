@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Du bist eingeladen — IRLQ</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/irlq-icon-black.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      .claim {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+        /* top-flow (not centered) so tall content scrolls instead of clipping;
+           the bottom padding clears the fixed footer nav */
+        padding: clamp(2rem, 8vh, 4.5rem) 1.5rem 9rem;
+        position: relative;
+        z-index: 1;
+      }
+      #join-valid,
+      #join-missing {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+      }
+      /* `display: flex` above outweighs the UA rule behind [hidden] */
+      #join-valid[hidden],
+      #join-missing[hidden] {
+        display: none;
+      }
+      .claim-logo img {
+        width: 72px;
+        height: 72px;
+      }
+      .claim h1 {
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      .claim p {
+        max-width: 26rem;
+        opacity: 0.85;
+      }
+      .claim .subline {
+        font-size: 0.9rem;
+        opacity: 0.6;
+      }
+      .claim-open {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.9rem 2.5rem;
+        border-radius: 999px;
+        background: var(--text);
+        color: var(--bg);
+        font-weight: 600;
+        font-size: 1.05rem;
+        text-decoration: none;
+      }
+      .claim-hint {
+        font-size: 0.85rem;
+        opacity: 0.6;
+        max-width: 22rem;
+      }
+      .claim .store-badge img {
+        height: 48px;
+      }
+      .join-code {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+        border-radius: 16px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        font-variant-numeric: tabular-nums;
+      }
+      .join-copy {
+        border: 0;
+        border-radius: 999px;
+        padding: 0.45rem 1rem;
+        background: color-mix(in srgb, currentColor 12%, transparent);
+        color: inherit;
+        font: inherit;
+        font-size: 0.85rem;
+        letter-spacing: normal;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-icon" aria-hidden="true"></div>
+
+    <main class="claim">
+      <a class="claim-logo" href="/" aria-label="Zur Startseite">
+        <img src="/irlq-icon.svg" alt="IRLQ" />
+      </a>
+
+      <div id="join-valid" hidden>
+        <h1>Du bist eingeladen.</h1>
+        <p>
+          Jemand will dich in seiner IRLQ-Gruppe haben. Öffne den Link in der App und du bist drin.
+          <br />
+          <span class="subline">Someone wants you in their IRLQ group. Open this link in the app and you're in.</span>
+        </p>
+        <a id="open-app" class="claim-open" href="#">In der IRLQ-App öffnen</a>
+        <div class="join-code">
+          <span id="code-text"></span>
+          <button id="copy-code" class="join-copy" type="button">Kopieren</button>
+        </div>
+        <p class="claim-hint">
+          Noch keine App? Installiere IRLQ, kopiere den Code und gib ihn unter „Gruppe beitreten" ein.
+          <br />
+          <span class="subline">No app yet? Install IRLQ, copy the code, and enter it under "Join group".</span>
+        </p>
+        <a class="store-badge" href="#" aria-label="IRLQ im App Store laden">
+          <img src="/app-store-badge.svg" alt="Laden im App Store" />
+        </a>
+      </div>
+
+      <div id="join-missing" hidden>
+        <h1>Link unvollständig</h1>
+        <p>
+          Diesem Link fehlt der Einladungscode. Bitte öffne den Link genau so, wie er geteilt wurde.
+          <br />
+          <span class="subline">This link is missing its invite code — please open it exactly as it was shared.</span>
+        </p>
+      </div>
+    </main>
+
+    <site-footer></site-footer>
+    <script type="module" src="/src/footer.js"></script>
+    <script>
+      // Invite codes are 8 chars A–Z 0–9 (see the app's sanitizeInviteCode).
+      const match = location.pathname.match(/^\/join\/([A-Za-z0-9]{1,12})\/?$/);
+      const code = match ? match[1].toUpperCase() : null;
+      if (code) {
+        document.getElementById('open-app').href = 'IRLQ://join/' + code;
+        document.getElementById('code-text').textContent = code;
+        document.getElementById('join-valid').hidden = false;
+        document.getElementById('copy-code').addEventListener('click', async (e) => {
+          try {
+            await navigator.clipboard.writeText(code);
+            e.target.textContent = 'Kopiert ✓';
+            setTimeout(() => (e.target.textContent = 'Kopieren'), 2000);
+          } catch {
+            /* clipboard blocked — the code is visible to copy by hand */
+          }
+        });
+      } else {
+        document.getElementById('join-missing').hidden = false;
+      }
+    </script>
+  </body>
+</html>

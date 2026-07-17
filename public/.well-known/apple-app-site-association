@@ -6,7 +6,11 @@
         "appIDs": ["V4TF4C7UZ7.com.marsoftware.irlq"],
         "components": [
           { "/": "/claim" },
-          { "/": "/claim/*" }
+          { "/": "/claim/*" },
+          { "/": "/join/*" },
+          { "/": "/book/*" },
+          { "/": "/user/*" },
+          { "/": "/@*" }
         ]
       }
     ]
