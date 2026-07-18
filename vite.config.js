@@ -11,7 +11,7 @@ const AASA_PATH = '/.well-known/apple-app-site-association'
 // original path — the pages read the code/id from location.pathname.
 const LINK_REWRITES = [
   [/^\/join\/[A-Za-z0-9]+\/?$/, '/join/index.html'],
-  [/^\/(book|user)\/[^/]+\/?$/, '/link/index.html'],
+  [/^\/(c|book|user)\/[^/]+\/?$/, '/link/index.html'],
   [/^\/@[^/]+(\/p\/[^/]+)?\/?$/, '/link/index.html'],
 ]
 
