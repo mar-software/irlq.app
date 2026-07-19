@@ -28,11 +28,19 @@
   src: url('/fonts/kanit-700.woff2') format('woff2');
 }
 
-/* ---------- Base ---------- */
+/* ---------- Base ----------
+   Palette mirrors the app's dark theme (src/theme/colors.ts): near-black
+   BeReal-style background, warm-beige button face, neutral text. */
 :root {
-  --bg: #34342b;
-  --icon-overlay: rgba(0, 0, 0, 0.28);
+  --bg: #0a0a0a; /* app background */
+  --surface: #161616; /* app card surface */
+  --border: #2a2a2a; /* app hairline border */
   --text: #ffffff;
+  --text-muted: #a3a3a3; /* app textMuted */
+  --accent: #e9e2d4; /* app button face — warm beige */
+  --accent-text: #0a0a0a; /* text on the beige button */
+  /* faint warm silhouette of the giant IRLQ mark on near-black */
+  --icon-overlay: rgba(233, 226, 212, 0.05);
 }
 
 * {
@@ -183,20 +191,20 @@ body {
   justify-content: center;
   padding: 0.9rem 2rem;
   border-radius: 999px;
-  background: #f5e663;
-  color: #0a0a0a;
+  background: var(--accent);
+  color: var(--accent-text);
   font-family: inherit;
   font-weight: 700;
   font-size: 1.1rem;
   letter-spacing: 0.01em;
   text-decoration: none;
-  box-shadow: 0 12px 32px rgba(245, 230, 99, 0.25);
+  box-shadow: 0 12px 32px rgba(233, 226, 212, 0.18);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .beta-badge:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(245, 230, 99, 0.35);
+  box-shadow: 0 16px 40px rgba(233, 226, 212, 0.28);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -374,7 +382,7 @@ body {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #d6d6c4;
+  color: var(--text-muted);
   margin-bottom: 0.5rem;
 }
 
